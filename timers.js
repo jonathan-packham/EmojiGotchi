@@ -113,7 +113,7 @@ export class cleanTimer extends Component {
 
     cleanTimerDidMount() {
         this.cleanTimerID = setInterval(
-            () => this.hungerTick(), 1000
+            () => this.cleaningTick(), 1000
         );
     }
 
