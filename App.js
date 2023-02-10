@@ -1,91 +1,43 @@
 import React, {Component} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StatusBar} from 'expo-status-bar';
-import {ActivityIndicator, Pressable, StyleSheet, Text, View} from 'react-native';
-<<<<<<< HEAD
+import {ActivityIndicator, Alert, Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Card} from 'react-native-paper';
 import {CleanTimer, HungerTimer, LonelyTimer} from './emojiTimers';
 import {EmojiDisplay} from './Emojis';
 
-export class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      source: new EmojiDisplay,
-    }
-  }
-  render() {
-    for (let i = 15; i > 0; i--) {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.title}>EmojiGotchi</Text>
-          <Text style={styles.rules}>Feed, clean, and play with you Emoji!</Text>
-          <Text style={styles.rules}>Otherwise, it may not survive...</Text>
-          <ActivityIndicator size="large" />
-          <StatusBar style="auto" />
-=======
-import {CleanTimer, DeathTimer, HungerTimer, LonelyTimer} from 'C:/Users/packh/mobileApp/emojiPetv4/emojiTimers';
-import {CleanDisplay, DefaultDisplay, DirtyDisplay, DyingDisplay, FedDisplay, HappyDisplay, HungerDisplay, LonelyDisplay} from 'C:/Users/packh/mobileApp/emojiPetv4/emojiDisplay';
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return ( 
-    <View style={styles.container}>
-      <View style={styles.timerContainer}>
-        <HungerTimer />
-        <CleanTimer />
-        <LonelyTimer />
-      </View>
-      <View>
-        <View>
-          {(!HungerTimer.isHungry) ?
-            <FedDisplay /> :
-            <HungerDisplay />
-          } || {(!CleanTimer.isDirty) ?
-            <CleanDisplay /> :
-            <DirtyDisplay />
-          } || {(!LonelyTimer.isLonely) ?
-            <HappyDisplay /> :
-            <LonelyDisplay />
-          } {(!DeathTimer.isDying) ? 
-            <DefaultDisplay /> :
-            <DyingDisplay />
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="LoadingScreen"
+          component={LoadingScreen}
+        />
+        <Stack.Screen name="EmojiScreen"
+          component={EmojiScreen}
+          options={
+            ({route}) => ({
+              title: route.params.emojiName,
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                textDecorationLines: 'underline',
+                color: 'blue',
+              }
+            })
           }
->>>>>>> 79130a3fcbb0b48bb973f666afb6b4825107c600
-        </View>
-      )
-    }
-    return ( 
-      <View style={styles.container}>
-        <View>
-          <Card>
-            <View style={styles.emojiContain}>
-              <EmojiDisplay />
-            </View>
-          </Card>
-          <View style={styles.horizontal}>
-            <Pressable
-              onPress={()=> HungerTimer.resetHungerTimer(false)}
-            >
-              <Text>Feed Me!!</Text>
-              <View style={styles.feed} />
-            </Pressable>
-            <Pressable
-              onPress={()=> CleanTimer.resetCleanTimer(false)}
-            >
-              <Text>Clean Me!!</Text>
-              <View style={styles.clean} />
-            </Pressable>
-            <Pressable
-              onPress={()=> LonelyTimer.resetLonelyTimer(false)}
-            >
-              <Text>Play With Me!!</Text>
-              <View style={styles.play} />
-            </Pressable>
-          </View>
-        </View>
-        <StatusBar style="auto" />
-      </View>
-    );
-  }
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+const LoadingScreen = ({navigation}) => {
+
+
+  navigation = 
 }
 
 const styles = StyleSheet.create({
