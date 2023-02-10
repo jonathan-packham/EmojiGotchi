@@ -1,11 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import {ActivityIndicator, Pressable, StyleSheet, Text, View} from 'react-native';
-import {Card} from 'react-native-paper';
 import {CleanTimer, DeathTimer, HungerTimer, LonelyTimer} from 'C:/Users/packh/mobileApp/emojiPetv4/emojiTimers';
 import {CleanDisplay, DefaultDisplay, DirtyDisplay, DyingDisplay, FedDisplay, HappyDisplay, HungerDisplay, LonelyDisplay} from 'C:/Users/packh/mobileApp/emojiPetv4/emojiDisplay';
 
 export default function App() {
-
   return ( 
     <View style={styles.container}>
       <View style={styles.timerContainer}>
