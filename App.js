@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StatusBar} from 'expo-status-bar';
-import {ActivityIndicator, Alert, Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Card} from 'react-native-paper';
 import {CleanTimer, HungerTimer, LonelyTimer} from './emojiTimers';
 import {EmojiDisplay} from './Emojis';
@@ -35,9 +35,34 @@ export default function App() {
 }
 
 const LoadingScreen = ({navigation}) => {
+  const [emojiName, setName] = React.useState('');
+  const [placeholder] = React.useState('Name: ');
 
-
-  navigation = 
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>EmojiGotchi!</Text>
+      <Text style={styles.rules}>Feed, clean, and play with your EmojiGotchi!</Text>
+      <Text style={styles.rules}>Otherwise, it may not survive!</Text>
+      <Text style={styles.rules}>Please name your pet before entering!</Text>
+      <View>
+        <TextInput style={styles.input}
+          onChangeText={setName}
+          value={emojiName}
+          placeholder={placeholder}
+        />
+      </View>
+      {(emojiName == '') ?
+        <ActivityIndicator size="large" /> :
+        <Pressable
+          onPress={() => {navigation.navigate('MainScreen', {emojiName: emojiName})}}
+        >
+          <Text>Start Game!</Text>
+          <View style={styles.startBtn} />
+        </Pressable>  
+      }
+      <StatusBar style="auto" />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -71,6 +96,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 10,
   },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
   play: {
     color: 'red',
     height: 30,
@@ -80,8 +111,15 @@ const styles = StyleSheet.create({
   rules: {
     fontSize: 25,
   },
+  startBtn: {
+    color: 'blue',
+    height: 30,
+    width: 50,
+    padding: 10,
+  },
   title: {
     fontWeight: 'bold',
     fontSize: 35,
-  }
+    color: 'blue',
+  },
 });  
