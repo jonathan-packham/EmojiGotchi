@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar} from 'expo-status-bar';
 import {ActivityIndicator, Pressable, StyleSheet, Text, View} from 'react-native';
+<<<<<<< HEAD
 import {Card} from 'react-native-paper';
 import {CleanTimer, HungerTimer, LonelyTimer} from './emojiTimers';
 import {EmojiDisplay} from './Emojis';
@@ -21,6 +22,34 @@ export class App extends Component {
           <Text style={styles.rules}>Otherwise, it may not survive...</Text>
           <ActivityIndicator size="large" />
           <StatusBar style="auto" />
+=======
+import {CleanTimer, DeathTimer, HungerTimer, LonelyTimer} from 'C:/Users/packh/mobileApp/emojiPetv4/emojiTimers';
+import {CleanDisplay, DefaultDisplay, DirtyDisplay, DyingDisplay, FedDisplay, HappyDisplay, HungerDisplay, LonelyDisplay} from 'C:/Users/packh/mobileApp/emojiPetv4/emojiDisplay';
+
+export default function App() {
+  return ( 
+    <View style={styles.container}>
+      <View style={styles.timerContainer}>
+        <HungerTimer />
+        <CleanTimer />
+        <LonelyTimer />
+      </View>
+      <View>
+        <View>
+          {(!HungerTimer.isHungry) ?
+            <FedDisplay /> :
+            <HungerDisplay />
+          } || {(!CleanTimer.isDirty) ?
+            <CleanDisplay /> :
+            <DirtyDisplay />
+          } || {(!LonelyTimer.isLonely) ?
+            <HappyDisplay /> :
+            <LonelyDisplay />
+          } {(!DeathTimer.isDying) ? 
+            <DefaultDisplay /> :
+            <DyingDisplay />
+          }
+>>>>>>> 79130a3fcbb0b48bb973f666afb6b4825107c600
         </View>
       )
     }
