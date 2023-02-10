@@ -47,7 +47,7 @@ export class HungerTimer extends Component {
         super(props);
         this.state = {
             hungerTime: 7200,
-            hungerAlarmTime: 100,
+            hungerAlarmTime: 0,
             isHungry: false,
         }
     }
@@ -102,8 +102,8 @@ export class CleanTimer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cleanTime: 7200,
-            cleanAlarmTime: 200,
+            cleanTime: 10800,
+            cleanAlarmTime: 0,
             isDirty: false,
         }
     }
@@ -158,15 +158,15 @@ export class LonelyTimer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lonelyTime: 7200,
-            lonelyAlarmTime: 300,
+            lonelyTime: 3600,
+            lonelyAlarmTime: 0,
             isLonely: false,
         }
     }
 
     resetLonelyTimer(play) {
         this.setState = ({
-            lonelyTime: 7200,
+            lonelyTime: 3600,
             isLonely: play,
         })
     }
@@ -213,7 +213,7 @@ export class DeathTimer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            deathTime: 10800,
+            deathTime: 14400,
             deathAlarmTime: 0,
             isDying: false,
         }

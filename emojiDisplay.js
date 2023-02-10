@@ -92,15 +92,4 @@ export class DefaultDisplay extends Component {
 }
 
 const styles = StyleSheet.create({
-    emoji: {
-        height: 150,
-        width: 150,
-    },
-    emojiContain: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 300,
-        width: 300,
-    },
 })
