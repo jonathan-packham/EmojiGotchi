@@ -26,15 +26,16 @@ export class Timer extends Component {
     }
 
     tick() {
+        let tempTime = this.state.timer;
         let newTimer = this.state.timer - 1;
-        if (newTimer <= 0) {
+        if (newTimer <= this.state.timerAlarmTime) {
             this.setState({
                 timer: 0,
                 barPercent: 0,
             })
         } else {
             this.setState({
-                barPercent: ((newTimer / this.state.timer) * 100),
+                barPercent: ((newTimer / tempTime) * 100),
                 timer: newTimer,
             })
         }

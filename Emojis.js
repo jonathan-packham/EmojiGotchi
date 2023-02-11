@@ -11,7 +11,6 @@ export class EmojiDisplay extends Component {
             hungerBar: 100,
             dirtyBar: 100,
             lonelyBar: 100,
-            isDead: false,
         }
     }
 
@@ -43,10 +42,8 @@ export class EmojiDisplay extends Component {
         let avgTimeLeft = ((this.state.hungerBar + this.state.dirtyBar + this.state.lonelyBar) / 3);
         if (avgTimeLeft == 0) {
             this.setState ({
-                isDead: true,
                 display: <Image style={styles.emoji} source={require('./assets/dead.jpg')} />,
             })
-            clearInterval(this.TimerID);
         } else if (avgTimeLeft > 0 && avgTimeLeft <= 25) {
             this.setState({
                 display: <Image style={styles.emoji} source={require('./assets/dying.jpg')} />,
