@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StatusBar} from 'expo-status-bar';
-import {ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
-import {Card} from 'react-native-paper';
-import {CleanTimer, HungerTimer, LonelyTimer} from './emojiTimers';
+import {ActivityIndicator, Keyboard, Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {EmojiDisplay} from './Emojis';
 
 const Stack = createNativeStackNavigator();
+
+const dismissKeyboard = () => {
+  Keyboard.dismiss();
+}
 
 export default function App() {
   return (
@@ -38,8 +40,14 @@ const LoadingScreen = ({navigation}) => {
   const [emojiName, setName] = React.useState('');
   const [placeholder] = React.useState('Name: ');
 
+  navigate = (screen, emojiName) => {
+    screen = screen;
+    emojiName = emojiName;
+    {navigation.navigate(screen, {emojiName: emojiName});};
+  }
+
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={dismissKeyboard}>
       <Text style={styles.title}>EmojiGotchi!</Text>
       <Text style={styles.rules}>Feed, clean, and play with your EmojiGotchi!</Text>
       <Text style={styles.rules}>Otherwise, it may not survive!</Text>
@@ -54,58 +62,37 @@ const LoadingScreen = ({navigation}) => {
       {(emojiName == '') ?
         <ActivityIndicator size="large" /> :
         <Pressable
-          onPress={() => {navigation.navigate('MainScreen', {emojiName: emojiName})}}
+          onPress={() => {navigation.navigate('EmojiScreen', {emojiName: emojiName})}}
         >
           <Text>Start Game!</Text>
           <View style={styles.startBtn} />
         </Pressable>  
       }
       <StatusBar style="auto" />
+    </Pressable>
+  )
+}
+
+const EmojiScreen = ({navigation, route}) => {
+  return (
+    <View styles={styles.container}>
+        <EmojiDisplay emojiName={route.params.emojiName} navigation={navigation} />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  clean: {
-    color: 'blue',
-    height: 30,
-    width: 30,
-    padding: 10,
-  },
   container: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  emojiContain: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 300,
-    width: 300,
-  },
-  feed: {
-    color: 'green',
-    height: 30,
-    width: 30,
-    padding: 10,
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
   },
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
-    padding: 10,
-  },
-  play: {
-    color: 'red',
-    height: 30,
-    width: 30,
     padding: 10,
   },
   rules: {

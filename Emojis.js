@@ -1,53 +1,93 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet} from 'react-native';
-import {CleanTimer, DeathTimer, HungerTimer, LonelyTimer} from './emojiTimers';
+import {Image, StyleSheet, View} from 'react-native';
+import {Timer} from './emojiTimers';
 
 export class EmojiDisplay extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            emojiState: './assets/default.jpg',
-            isNotClean: CleanTimer.state.isDirty,
-            isNotFed: HungerTimer.state.isHungry,
-            isNotHappy: LonelyTimer.state.isLonely,
-            isNotAlive: DeathTimer.state.isDying,
+            display: null,
+            emojiName: props.emojiName,
+            hungerBar: 100,
+            dirtyBar: 100,
+            lonelyBar: 100,
+            isDead: false,
         }
     }
 
-    emojiDisplayDidMount() {
-        this.emojiDisplayID = setInterval(
-            () => this.emojiDisplayTick(), 5000
-        )
-    }
-
-    emojiDisplayTick() {
-        let source = this.state.emojiState;
-        if (this.state.isNotClean) {
-            source = './assets/dirty.jpg';
-        } else if (this.state.isNotFed) {
-            source = './assets/hungry.jpg';
-        } else if (this.state.isNotHappy) {
-            source = './assets/lonely.jpg';
-        } else if (this.state.isNotClean && this.state.isNotFed && this.state.isNotHappy) {
-            source = './assets/dying.jpg';
-        } else if (this.state.isNotAlive) {
-            source = './assets/dead.jpg';
-        } else {
-            source = './assets/default.jpg';
-        }
+    setHungerBar = (percent) => {
         this.setState({
-            emojiState: source,
-        })
+            hungerBar: percent,
+        });
     }
 
-    emojiDisplayDidUnmount() {
-        clearInterval(this.emojiDisplayID);
+    setDirtyBar = (percent) => {
+        this.setState({
+            dirtyBar: percent,
+        });
     }
 
-    render() {   
-        return (
-            <Image style={styles.emoji} source={require(this.state.emojiState)} />
+    setLonelyBar = (percent) => {
+        this.setState({
+            lonelyBar: percent,
+        });
+    }
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(), 1000
         );
+    }
+
+    tick() {
+        let avgTimeLeft = ((this.state.hungerBar + this.state.dirtyBar + this.state.lonelyBar) / 3);
+        if (avgTimeLeft == 0) {
+            this.setState ({
+                isDead: true,
+                display: <Image style={styles.emoji} source={require('./assets/dead.jpg')} />,
+            })
+            clearInterval(this.TimerID);
+        } else if (avgTimeLeft > 0 && avgTimeLeft <= 25) {
+            this.setState({
+                display: <Image style={styles.emoji} source={require('./assets/dying.jpg')} />,
+            })
+        } else if (avgTimeLeft >= 26 && avgTimeLeft <= 50) {
+            this.setState({
+                display: <Image style={styles.emoji} source={require('./assets/hungry.jpg')} />,
+            })
+        } else if (avgTimeLeft >= 51 && avgTimeLeft <= 75) {
+            this.setState({
+                display: <Image style={styles.emoji} source={require('./assets/dirty.jpg')} />
+            })
+        } else if (avgTimeLeft >= 76 && avgTimeLeft <= 100) {
+            this.setState({
+                display: <Image style={styles.emoji} source={require('./assets/default.jpg')} />
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    render() {
+        return (
+            <>
+            <View style={styles.timerContainer}>
+                <Timer barColor={'red'} barText={'Hunger'} btnText={'Feed'} callback={this.setHungerBar} />
+            </View>
+            <View style={styles.timerContainer}>
+                <Timer barColor={'green'} barText={'Happiness'} btnText={'Play'} callback={this.setLonelyBar} />
+            </View>
+            <View style={styles.timerContainer}>
+                <Timer barColor={'lightblue'} barText={'Cleanliness'} btnText={'Clean'} callback={this.setDirtyBar} />
+            </View>
+            <View style={{height: 100,}} />
+            <View style={styles.emojiContain}>
+                {this.state.display}
+            </View>
+            </>
+        )
     }
 }
 
@@ -56,6 +96,13 @@ const styles = StyleSheet.create({
         height: 150,
         width: 150,
     },
+    emojiContain: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 300,
+        width: 300,
+      },
     timerContainer: {
         height: 70,
         flexDirection: 'row',
