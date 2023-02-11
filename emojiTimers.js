@@ -46,7 +46,7 @@ export class Timer extends Component {
     }
 
     resetTimer = () => {
-        let reset = 7200;
+        let reset = 20;
         this.setState({
             timer: reset,
         })
